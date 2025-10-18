@@ -1,15 +1,22 @@
 package com.jpa.hibernate;
 
 import com.jpa.hibernate.entity.User;
+import com.jpa.hibernate.persistence.CustomPersistenceUnitInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.hibernate.jpa.HibernatePersistenceProvider;
+
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
 
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("spring-jpa-hibernate");
+//        EntityManagerFactory emf =
+//                Persistence.createEntityManagerFactory("spring-jpa-hibernate");
+        EntityManagerFactory emf
+                = new HibernatePersistenceProvider()
+                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(), new HashMap());
         EntityManager em = emf.createEntityManager(); // represents the context
 
         try {
