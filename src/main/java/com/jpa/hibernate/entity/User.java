@@ -1,19 +1,21 @@
 package com.jpa.hibernate.entity;
 
+import com.jpa.hibernate.generator.UUIDGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name="UUIDGenerator", type = UUIDGenerator.class)
+    @GeneratedValue(generator = "UUIDGenerator")
+    private String id;
 
     private String firstName;
 
@@ -36,7 +38,7 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

@@ -7,31 +7,32 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import java.util.HashMap;
-
 public class Main {
     public static void main(String[] args) {
 
 //        EntityManagerFactory emf =
 //                Persistence.createEntityManagerFactory("spring-jpa-hibernate");
-        EntityManagerFactory emf
-                = new HibernatePersistenceProvider()
-                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(), new HashMap());
+
+        CustomPersistenceUnitInfo pui = new CustomPersistenceUnitInfo();
+        HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
+        EntityManagerFactory emf = provider.createContainerEntityManagerFactory(pui, pui.getProperties());
+
         EntityManager em = emf.createEntityManager(); // represents the context
 
         try {
             em.getTransaction().begin();
+//            em.persist();   --> Adding an entity in the context.
+//            em.find();      --> Finds by PK, Gets from the DB and add it to the context if it doesn't exist.
+//            em.remove();    --> Marking entity for removal.
+//            em.merge();     --> Merges an entity from outside the context to the context.
+//            em.refresh();   --> Mirror the context from the DB.
+//            em.detach();    --> Taking the entity out of the context.
 
             User user = new User("Alice", "Bob",
                     "alice@gmail.com", "1234");
             em.persist(user);      // add this to the context
 
             em.getTransaction().commit();
-
-            System.out.println("Inserted Users:");
-            em.createQuery("select u from User u", User.class)
-                    .getResultList()
-                    .forEach(System.out::println);
         } finally {
             em.close();
         }

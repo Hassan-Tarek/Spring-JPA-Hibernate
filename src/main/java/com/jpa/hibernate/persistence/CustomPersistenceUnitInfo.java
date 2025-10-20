@@ -33,9 +33,12 @@ public class CustomPersistenceUnitInfo
     @Override
     public DataSource getJtaDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:h2:file:./data/spring_jpa_hibernate_db;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/spring_jpa_hibernate_db?createDatabaseIfNotExist=true");
+        dataSource.setUsername("root");
+        dataSource.setPassword("password");
+        dataSource.setMaximumPoolSize(10);
+        dataSource.setPoolName("HibernateHikariPool");
         return dataSource;
     }
 
@@ -71,19 +74,18 @@ public class CustomPersistenceUnitInfo
 
     @Override
     public SharedCacheMode getSharedCacheMode() {
-        return null;
+        return SharedCacheMode.NONE;
     }
 
     @Override
     public ValidationMode getValidationMode() {
-        return null;
+        return ValidationMode.NONE;
     }
 
     @Override
     public Properties getProperties() {
         Properties props = new Properties();
-        props.put("hibernate.hbm2ddl.auto", "update");
-        props.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        props.put("hibernate.hbm2ddl.auto", "create");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.format_sql", "true");
         return props;
@@ -91,21 +93,20 @@ public class CustomPersistenceUnitInfo
 
     @Override
     public String getPersistenceXMLSchemaVersion() {
-        return "";
+        return "3.0";
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        return null;
+        return Thread.currentThread().getContextClassLoader();
     }
 
     @Override
     public void addTransformer(ClassTransformer transformer) {
-
     }
 
     @Override
     public ClassLoader getNewTempClassLoader() {
-        return null;
+        return getClassLoader();
     }
 }
