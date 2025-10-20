@@ -64,7 +64,8 @@ public class CustomPersistenceUnitInfo
 
     @Override
     public List<String> getManagedClassNames() {
-        return List.of("com.jpa.hibernate.entity.User");
+        return List.of("com.jpa.hibernate.entity.User",
+                "com.jpa.hibernate.entity.Product");
     }
 
     @Override

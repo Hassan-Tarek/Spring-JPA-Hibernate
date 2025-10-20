@@ -1,5 +1,7 @@
 package com.jpa.hibernate;
 
+import com.jpa.hibernate.entity.Product;
+import com.jpa.hibernate.entity.ProductKey;
 import com.jpa.hibernate.entity.User;
 import com.jpa.hibernate.persistence.CustomPersistenceUnitInfo;
 import jakarta.persistence.EntityManager;
@@ -28,9 +30,18 @@ public class Main {
 //            em.refresh();   --> Mirror the context from the DB.
 //            em.detach();    --> Taking the entity out of the context.
 
-            User user = new User("Alice", "Bob",
-                    "alice@gmail.com", "1234");
-            em.persist(user);      // add this to the context
+//            User user = new User("Alice", "Bob",
+//                    "alice@gmail.com", "1234");
+//            em.persist(user);      // add this to the context
+
+            ProductKey productKey = new ProductKey();
+            productKey.setCode("code");
+            productKey.setNumber(1);
+
+            Product product = new Product();
+            product.setProductKey(productKey);
+            product.setColor("Red");
+            em.persist(product);
 
             em.getTransaction().commit();
         } finally {

@@ -9,3 +9,10 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS products (
+    code VARCHAR(255) NOT NULL,
+    number BIGINT NOT NULL,
+    color VARCHAR(255) NOT NULL,
+    PRIMARY KEY (code, number)
+);
